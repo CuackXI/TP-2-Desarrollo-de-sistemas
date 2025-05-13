@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                    // Versión de JavaScript a la que se transpilará el código
+    "module": "commonjs",               // Módulos de Node.js
+    "strict": true,                     // Activar modo estricto (opcional)
+    "esModuleInterop": true,            // Permite la importación de módulos CommonJS
+    "skipLibCheck": true,               // Omite la comprobación de tipos de las bibliotecas
+    "outDir": "./dist",                 // Carpeta de salida donde se generarán los archivos JS
+    "rootDir": "./src",                 // Carpeta de origen con tus archivos TypeScript
+    "resolveJsonModule": true,          // Permite importar archivos JSON como módulos (opcional)
+    "removeComments": true,             // Eliminar comentarios del código generado
+    "noEmitOnError": true               // No generar archivos JS si hay errores en TypeScript
+  },
+  "include": [
+    "src/**/*.ts"                       // Incluir todos los archivos TS en el directorio src
+  ],
+  "exclude": [
+    "node_modules"                      // Excluir node_modules de la compilación
+  ]
+}
