@@ -10,3 +10,6 @@ Se deben ejecutar los siguientes comandos en este orden:
 - **npm install** (para las dependencias)
 - **npm run build** (para traspilar el código a js)
 - **npm run start** (para levantar la api) 
+
+## Cómo migrar base de datos
+- **npx prisma migrate dev --name init**

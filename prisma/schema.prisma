@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum RolUsuario {
+  ADMIN
+  CLIENTE
+}
+
+model Usuario {
+  id          Int        @id @default(autoincrement())
+  nombre      String
+  contraseña  String
+  rol         RolUsuario @default(CLIENTE)
+  pedidos     Pedido[]
+  reservas    Reserva[]
+}
+
+model Plato {
+  id         Int       @id @default(autoincrement())
+  nombre     String
+  precio     Int
+  disponible Boolean
+  pedidos    PedidoPlato[]
+}
+
+model Mesa {
+  id        Int       @id @default(autoincrement())
+  numero    Int       @unique
+  disponible Boolean
+  reservas  Reserva[]
+}
+
+model Reserva {
+  id        Int      @id @default(autoincrement())
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+  mesa      Mesa     @relation(fields: [mesaId], references: [id])
+  mesaId    Int
+  fecha     DateTime
+}
+
+model Pedido {
+  id          Int            @id @default(autoincrement())
+  usuario     Usuario        @relation(fields: [usuarioId], references: [id])
+  usuarioId   Int
+  platos      PedidoPlato[]
+  estado      EstadoPedido   @default(PENDIENTE)
+  total       Int
+  creadoEn    DateTime       @default(now())
+}
+
+model PedidoPlato {
+  id        Int     @id @default(autoincrement())
+  pedido    Pedido  @relation(fields: [pedidoId], references: [id])
+  pedidoId  Int
+  plato     Plato   @relation(fields: [platoId], references: [id])
+  platoId   Int
+  cantidad  Int
+}
+
+enum EstadoPedido {
+  PENDIENTE
+  EN_COCINA
+  ENVIADO
+}

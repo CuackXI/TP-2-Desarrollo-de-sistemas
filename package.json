@@ -23,14 +23,19 @@
   },
   "homepage": "https://github.com/CuackXI/TP-2-Desarrollo-de-sistemas#readme",
   "dependencies": {
+    "@prisma/client": "^6.7.0",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.17",
     "concurrently": "^9.1.2",
     "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.23",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "prisma": "^6.7.0"
   }
 }

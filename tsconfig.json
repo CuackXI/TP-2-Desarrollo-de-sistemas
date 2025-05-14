@@ -16,5 +16,7 @@
   ],
   "exclude": [
     "node_modules"                      // Excluir node_modules de la compilación
-  ]
+  ],
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true
 }
