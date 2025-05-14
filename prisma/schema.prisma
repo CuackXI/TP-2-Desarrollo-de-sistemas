@@ -14,7 +14,7 @@ enum RolUsuario {
 
 model Usuario {
   id          Int        @id @default(autoincrement())
-  nombre      String
+  nombre      String     @unique
   contraseña  String
   rol         RolUsuario @default(CLIENTE)
   pedidos     Pedido[]
