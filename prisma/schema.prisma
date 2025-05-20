@@ -15,16 +15,27 @@ enum RolUsuario {
 model Usuario {
   id          Int        @id @default(autoincrement())
   nombre      String     @unique
+  correo      String     @unique
+  telefono    String     @unique
+  direccion   String
   contraseña  String
   rol         RolUsuario @default(CLIENTE)
   pedidos     Pedido[]
   reservas    Reserva[]
 }
 
+enum CategoriaPlato {
+  ENTRADA
+  PRINCIPAL
+  POSTRE
+}
+
 model Plato {
   id         Int       @id @default(autoincrement())
   nombre     String
+  descripcion String
   precio     Int
+  categoria  CategoriaPlato
   disponible Boolean
   pedidos    PedidoPlato[]
 }
@@ -51,7 +62,8 @@ model Pedido {
   usuarioId   Int
   platos      PedidoPlato[]
   estado      EstadoPedido   @default(PENDIENTE)
-  total       Int
+  total       Decimal
+  descuento   Int?
   creadoEn    DateTime       @default(now())
 }
 

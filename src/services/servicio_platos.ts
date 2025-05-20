@@ -1,4 +1,4 @@
-import { Plato } from '@prisma/client';
+import { Plato, CategoriaPlato } from '@prisma/client';
 import { prisma } from '../index';
 
 export class ServicioPlato {
@@ -16,13 +16,24 @@ export class ServicioPlato {
         });
     }
 
+    // Cliente
+    static async obtener_platos_categoria(categoria: CategoriaPlato): Promise<Plato[]> {
+        return prisma.plato.findMany({
+            where: {
+                categoria: categoria,
+            },
+        });
+    }
+
     // Admin
     static async crear_plato(datos: Omit<Plato, 'id' | 'pedidos'>): Promise<Plato> {
         return prisma.plato.create({
             data: {
                 nombre: datos.nombre,
+                descripcion: datos.descripcion,
                 precio: datos.precio,
                 disponible: datos.disponible,
+                categoria: datos.categoria,
             },
         });
     }
