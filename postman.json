@@ -4,7 +4,7 @@
 		"name": "Desarrollo de sistemas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "44724689",
-		"_collection_link": "https://andreatta.postman.co/workspace/866e1505-019b-4d32-8e2a-407a93adf391/collection/44724689-ee1162f3-7bcf-4c12-8af9-a160765684b9?action=share&source=collection_link&creator=44724689"
+		"_collection_link": "https://andreatta.postman.co/workspace/andreatta's-Workspace~866e1505-019b-4d32-8e2a-407a93adf391/collection/44724689-ee1162f3-7bcf-4c12-8af9-a160765684b9?action=share&source=collection_link&creator=44724689"
 	},
 	"item": [
 		{
@@ -53,7 +53,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"contraseña\": \"123\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"Nico\",\r\n    \"correo\": \"correo@nico\",\r\n    \"telefono\": \"2\", \r\n    \"contraseña\": \"123\",\r\n    \"direccion\": \"hola\",\r\n    \"rol\": \"ADMIN\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -71,6 +71,222 @@
 						"register"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "get mesas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/mesas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mesas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get mesas disponibles",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "crear mesa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numero\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/mesas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mesas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete mesa",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"contraseña\": \"123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/mesas/15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mesas",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "menu",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/menu",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"menu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear plato",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Volcan de chocolate\",\n    \"descripcion\": \"nunca comi esto en mi vida\",\n    \"precio\": 2000,\n    \"categoria\": \"POSTRE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/platos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"platos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete plato",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Volcan de chocolate\",\n    \"descripcion\": \"nunca comi esto en mi vida\",\n    \"precio\": 2000,\n    \"categoria\": \"POSTRE\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/platos/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"platos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"contraseña\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get reservas",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "crear reserva",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
