@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ServicioUsuario } from '../services/servicio_usuarios';
 
+// Admin
 export async function getUsuarios(req: Request, res: Response) {
   try {
     const usuarios = await ServicioUsuario.obtener_usuarios();
@@ -11,6 +12,7 @@ export async function getUsuarios(req: Request, res: Response) {
   }
 };
 
+// Admin
 export async function eliminarUsuario(req: Request, res: Response): Promise<void> {
   try {
     const id = parseInt(req.params.id);

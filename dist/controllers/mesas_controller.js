@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMesas = getMesas;
+exports.getMesasDisponibles = getMesasDisponibles;
 exports.crearMesa = crearMesa;
 exports.eliminarMesa = eliminarMesa;
-exports.verificarDisponibilidadMesa = verificarDisponibilidadMesa;
 const servicio_mesas_1 = require("../services/servicio_mesas");
-function getMesas(req, res) {
+function getMesas(_, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const mesas = yield servicio_mesas_1.ServicioMesa.obtener_mesas();
@@ -26,14 +26,26 @@ function getMesas(req, res) {
         }
     });
 }
+function getMesasDisponibles(_, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const mesas = yield servicio_mesas_1.ServicioMesa.obtener_mesas_disponible();
+            res.json(mesas);
+        }
+        catch (error) {
+            console.error('Error al obtener mesas:', error);
+            res.status(500).json({ mensaje: 'Error al obtener mesas' });
+        }
+    });
+}
 function crearMesa(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { numero, disponible } = req.body;
-            if (typeof numero !== 'number' || typeof disponible !== 'boolean') {
-                return res.status(400).json({ mensaje: 'Datos inválidos' });
+            const { numero } = req.body;
+            if (typeof numero !== 'number') {
+                res.status(400).json({ mensaje: 'Datos inválidos' });
             }
-            const mesa = yield servicio_mesas_1.ServicioMesa.crear_mesa({ numero, disponible });
+            const mesa = yield servicio_mesas_1.ServicioMesa.crear_mesa({ numero });
             res.status(201).json(mesa);
         }
         catch (error) {
@@ -47,7 +59,7 @@ function eliminarMesa(req, res) {
         try {
             const id = parseInt(req.params.id);
             if (isNaN(id)) {
-                return res.status(400).json({ mensaje: 'ID inválido' });
+                res.status(400).json({ mensaje: 'ID inválido' });
             }
             const mesa = yield servicio_mesas_1.ServicioMesa.eliminar_mesa(id);
             res.json(mesa);
@@ -55,24 +67,6 @@ function eliminarMesa(req, res) {
         catch (error) {
             console.error('Error al eliminar mesa:', error);
             res.status(500).json({ mensaje: 'Error al eliminar mesa' });
-        }
-    });
-}
-function verificarDisponibilidadMesa(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const idMesa = parseInt(req.params.idMesa);
-            const { fecha } = req.query;
-            if (isNaN(idMesa) || typeof fecha !== 'string') {
-                return res.status(400).json({ mensaje: 'Parámetros inválidos' });
-            }
-            const fechaDate = new Date(fecha);
-            const disponible = yield servicio_mesas_1.ServicioMesa.esta_mesa_disponible(idMesa, fechaDate);
-            res.json({ disponible });
-        }
-        catch (error) {
-            console.error('Error al verificar disponibilidad de mesa:', error);
-            res.status(500).json({ mensaje: 'Error al verificar disponibilidad de mesa' });
         }
     });
 }

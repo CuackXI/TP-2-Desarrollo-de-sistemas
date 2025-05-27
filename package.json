@@ -6,9 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist & npx tsc",
-    "prestart": "npm run build",
     "start": "node dist/index.js",
-    "preserve": "npm run build",
     "serve": "concurrently \"npx tsc -w\" & \"nodemon dist/index.js\""
   },
   "repository": {
@@ -28,6 +26,7 @@
     "@types/node": "^22.15.17",
     "concurrently": "^9.1.2",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
     "sqlite3": "^5.1.7",
@@ -35,6 +34,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@types/express-session": "^1.18.1",
     "nodemon": "^3.1.10",
     "prisma": "^6.7.0"
   }

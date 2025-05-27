@@ -9,16 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registrarse = void 0;
-const servicio_usuarios_1 = require("../services/servicio_usuarios");
-const registrarse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const nuevoUsuario = yield servicio_usuarios_1.ServicioUsuario.crear_usuario(req.body);
-        res.status(201).json(nuevoUsuario);
-    }
-    catch (error) {
-        console.log("Error:", error);
-        res.status(500).json({ mensaje: `Error al registrar usuario` });
-    }
-});
-exports.registrarse = registrarse;
+exports.logout = logout;
+function logout(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            if (!req.session.user) {
+                res.status(401).json({ ok: false, error: "No inició sesión" });
+                return;
+            }
+            req.session.destroy((_) => { res.status(200).json({ ok: true }); });
+        }
+        catch (error) {
+            res.status(500).json({ ok: false, error: error.message });
+        }
+    });
+}

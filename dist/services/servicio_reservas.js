@@ -9,36 +9,59 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ServicioMesa = void 0;
+exports.ServicioReserva = void 0;
 const index_1 = require("../index");
-class ServicioMesa {
-    static obtener_mesas() {
+class ServicioReserva {
+    static obtener_reservas() {
         return __awaiter(this, void 0, void 0, function* () {
-            return index_1.prisma.mesa.findMany();
+            return index_1.prisma.reserva.findMany();
         });
     }
-    static obtener_mesas_disponible() {
+    static obtener_reservas_usuario(usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return index_1.prisma.mesa.findMany({
+            return index_1.prisma.reserva.findMany({
                 where: {
+                    usuarioId: usuarioId,
+                },
+            });
+        });
+    }
+    static crear_reserva(datos) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const reserva = yield index_1.prisma.reserva.create({
+                data: datos
+            });
+            yield index_1.prisma.mesa.update({
+                where: {
+                    id: reserva.mesaId
+                },
+                data: {
+                    disponible: false
+                }
+            });
+            return reserva;
+        });
+    }
+    static eliminar_reserva(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const reserva = yield index_1.prisma.reserva.findUnique({
+                where: { id },
+            });
+            if (!reserva) {
+                throw new Error('Reserva no encontrada');
+            }
+            yield index_1.prisma.reserva.delete({
+                where: { id },
+            });
+            yield index_1.prisma.mesa.update({
+                where: {
+                    id: (yield reserva).mesaId
+                },
+                data: {
                     disponible: true
                 }
             });
         });
     }
-    static crear_mesa(datos) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return index_1.prisma.mesa.create({
-                data: datos
-            });
-        });
-    }
-    static eliminar_mesa(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return index_1.prisma.mesa.delete({
-                where: { id },
-            });
-        });
-    }
 }
-exports.ServicioMesa = ServicioMesa;
+exports.ServicioReserva = ServicioReserva;

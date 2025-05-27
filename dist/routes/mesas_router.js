@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const mesas_controller_1 = require("../controllers/mesas_controller");
+const session_auth_1 = require("../auth/session_auth");
 const mesasRouter = (0, express_1.Router)();
-mesasRouter.get('/', mesas_controller_1.getMesas);
+mesasRouter.get('/', session_auth_1.SessionCheck.checkUserIsAdmin, mesas_controller_1.getMesas);
+mesasRouter.get('/disponibles', session_auth_1.SessionCheck.checkUserIsLogged, mesas_controller_1.getMesasDisponibles);
+mesasRouter.post('/', session_auth_1.SessionCheck.checkUserIsAdmin, mesas_controller_1.crearMesa);
+mesasRouter.delete('/:id', session_auth_1.SessionCheck.checkUserIsAdmin, mesas_controller_1.eliminarMesa);
 exports.default = mesasRouter;

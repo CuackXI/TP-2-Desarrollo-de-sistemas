@@ -8,7 +8,7 @@ export class ServicioUsuario {
     }
 
     // Cliente
-    static async crear_usuario(datos: Omit<Usuario, 'id' | 'pedidos' | 'reservas'>): Promise<Usuario> {
+    static async crear_usuario(datos: Omit<Usuario, 'id' | 'rol' | 'pedidos' | 'reservas'>): Promise<Usuario> {
         return await prisma.usuario.create({
             data: datos,
         });
@@ -19,5 +19,21 @@ export class ServicioUsuario {
         return await prisma.usuario.delete({
             where: { id },
         });
+    }
+
+    static async get_usuario_por_nombre(nombre: string): Promise<Usuario> {
+        const usuario = await prisma.usuario.findUnique({
+            where: { nombre },
+        });
+
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+        
+        return usuario;
+    }
+
+    static comparar_contraseña(contraseña: string, usuario: Usuario): Boolean{
+        return contraseña == usuario.contraseña
     }
 }

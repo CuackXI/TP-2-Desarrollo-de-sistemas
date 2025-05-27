@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { getMesas, crearMesa, eliminarMesa, verificarDisponibilidadMesa } from '../controllers/mesas_controller';
+import { getMesas, crearMesa, eliminarMesa, getMesasDisponibles } from '../controllers/mesas_controller';
+import { SessionCheck } from '../auth/session_auth';
 
 const mesasRouter = Router();
 
-mesasRouter.get('/', getMesas);
-// mesasRouter.post('/', crearMesa);
-// mesasRouter.delete('/:id', eliminarMesa);
-// mesasRouter.get('/:id/disponible', verificarDisponibilidadMesa);
+mesasRouter.get('/', SessionCheck.checkUserIsAdmin, getMesas);
+mesasRouter.get('/disponibles', SessionCheck.checkUserIsLogged, getMesasDisponibles)
+mesasRouter.post('/', SessionCheck.checkUserIsAdmin, crearMesa);
+mesasRouter.delete('/:id', SessionCheck.checkUserIsAdmin, eliminarMesa);
 
 export default mesasRouter;

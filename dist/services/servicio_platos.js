@@ -17,11 +17,11 @@ class ServicioPlato {
             return index_1.prisma.plato.findMany();
         });
     }
-    static obtener_platos_disponibles() {
+    static obtener_platos_categoria(categoria) {
         return __awaiter(this, void 0, void 0, function* () {
             return index_1.prisma.plato.findMany({
                 where: {
-                    disponible: true,
+                    categoria: categoria,
                 },
             });
         });
@@ -29,19 +29,7 @@ class ServicioPlato {
     static crear_plato(datos) {
         return __awaiter(this, void 0, void 0, function* () {
             return index_1.prisma.plato.create({
-                data: {
-                    nombre: datos.nombre,
-                    precio: datos.precio,
-                    disponible: datos.disponible,
-                },
-            });
-        });
-    }
-    static actualizar_disponibilidad(id, disponible) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return index_1.prisma.plato.update({
-                where: { id },
-                data: { disponible },
+                data: datos
             });
         });
     }

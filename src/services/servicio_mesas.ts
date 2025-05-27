@@ -2,30 +2,24 @@ import { Mesa } from '@prisma/client';
 import { prisma } from '../index';
 
 export class ServicioMesa {
-    // Cliente
+    // Admin
     static async obtener_mesas(): Promise<Mesa[]> {
         return prisma.mesa.findMany();
     }
 
     // Cliente
-    static async esta_mesa_disponible(idMesa: number, fecha: Date): Promise<boolean> {
-        const reservas = await prisma.reserva.findMany({
+    static async obtener_mesas_disponible(): Promise<Mesa[]> {
+        return prisma.mesa.findMany({
             where: {
-                mesaId: idMesa,
-                fecha: fecha,
-            },
+                disponible: true
+            }
         });
-
-        return reservas.length === 0;
-    }
+    }    
 
     // Admin
-    static async crear_mesa(datos: Omit<Mesa, 'id' | 'reservas'>): Promise<Mesa> {
+    static async crear_mesa(datos: Omit<Mesa, 'id' | 'disponible' |'reservas'>): Promise<Mesa> {
         return prisma.mesa.create({
-            data: {
-                numero: datos.numero,
-                disponible: datos.disponible,
-            },
+            data: datos
         });
     }
 

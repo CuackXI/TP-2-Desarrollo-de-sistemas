@@ -9,16 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registrarse = void 0;
-const servicio_usuarios_1 = require("../services/servicio_usuarios");
-const registrarse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const nuevoUsuario = yield servicio_usuarios_1.ServicioUsuario.crear_usuario(req.body);
-        res.status(201).json(nuevoUsuario);
-    }
-    catch (error) {
-        console.log("Error:", error);
-        res.status(500).json({ mensaje: `Error al registrar usuario` });
-    }
-});
-exports.registrarse = registrarse;
+exports.getPlatos = getPlatos;
+const servicio_platos_1 = require("../services/servicio_platos");
+function getPlatos(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const platos = yield servicio_platos_1.ServicioPlato.obtener_platos();
+            res.json(platos);
+        }
+        catch (error) {
+            console.error('Error al obtener platos:', error);
+            res.status(500).json({ mensaje: 'Error al obtener platos' });
+        }
+    });
+}

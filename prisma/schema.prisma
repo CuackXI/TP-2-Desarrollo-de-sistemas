@@ -36,14 +36,13 @@ model Plato {
   descripcion String
   precio     Int
   categoria  CategoriaPlato
-  disponible Boolean
   pedidos    PedidoPlato[]
 }
 
 model Mesa {
   id        Int       @id @default(autoincrement())
   numero    Int       @unique
-  disponible Boolean
+  disponible Boolean @default(true)
   reservas  Reserva[]
 }
 
@@ -53,7 +52,6 @@ model Reserva {
   usuarioId Int
   mesa      Mesa     @relation(fields: [mesaId], references: [id])
   mesaId    Int
-  fecha     DateTime
 }
 
 model Pedido {

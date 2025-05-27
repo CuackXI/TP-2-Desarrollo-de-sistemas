@@ -9,41 +9,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ServicioUsuario = void 0;
+exports.ServicioPlato = void 0;
 const index_1 = require("../index");
-class ServicioUsuario {
-    static obtener_usuarios() {
+class ServicioPlato {
+    static obtener_pedidos() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield index_1.prisma.usuario.findMany();
+            return index_1.prisma.pedido.findMany();
         });
     }
-    static crear_usuario(datos) {
+    static obtener_pedidos_usuario(usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield index_1.prisma.usuario.create({
-                data: datos,
+            return index_1.prisma.pedido.findMany({
+                where: {
+                    usuarioId: usuarioId,
+                },
             });
         });
     }
-    static eliminar_usuario(id) {
+    static crear_pedido(datos) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield index_1.prisma.usuario.delete({
+            return index_1.prisma.pedido.create({
+                data: {
+                    usuarioId: datos.usuarioId,
+                    total: datos.total,
+                    descuento: datos.descuento,
+                },
+            });
+        });
+    }
+    static actualizar_disponibilidad(id, estado) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return index_1.prisma.pedido.update({
+                where: { id },
+                data: { estado },
+            });
+        });
+    }
+    static eliminar_pedido(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return index_1.prisma.pedido.delete({
                 where: { id },
             });
         });
     }
-    static get_usuario_por_nombre(nombre) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const usuario = yield index_1.prisma.usuario.findUnique({
-                where: { nombre },
-            });
-            if (!usuario) {
-                throw new Error('Usuario no encontrado');
-            }
-            return usuario;
-        });
-    }
-    static comparar_contraseña(contraseña, usuario) {
-        return contraseña == usuario.contraseña;
-    }
 }
-exports.ServicioUsuario = ServicioUsuario;
+exports.ServicioPlato = ServicioPlato;
