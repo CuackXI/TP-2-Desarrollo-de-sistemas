@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const reservas_usuario_controller_1 = require("../controllers/reservas_usuario_controller");
+const session_auth_1 = require("../auth/session_auth");
+const reservasUsuarioRouter = (0, express_1.Router)();
+reservasUsuarioRouter.get('/', session_auth_1.SessionCheck.checkUserIsLogged, reservas_usuario_controller_1.getMisReservas);
+reservasUsuarioRouter.post('/', session_auth_1.SessionCheck.checkUserIsLogged, reservas_usuario_controller_1.crearReservaUsuario);
+reservasUsuarioRouter.delete('/:id', session_auth_1.SessionCheck.checkUserIsLogged, reservas_usuario_controller_1.eliminarMiReserva);
+exports.default = reservasUsuarioRouter;

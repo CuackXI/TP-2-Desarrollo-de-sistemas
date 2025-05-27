@@ -17,6 +17,14 @@ export class ServicioReserva {
     }
 
     // Admin
+    static async obtener_reserva_por_id(id: number): Promise<Reserva | null> {
+        return prisma.reserva.findUnique({
+            where: { id },
+        });
+    }
+
+
+    // Admin
     static async crear_reserva(datos: Omit<Reserva, 'id' | 'usuario' | 'mesa'>): Promise<Reserva> {
         const reserva = await prisma.reserva.create({
             data: datos

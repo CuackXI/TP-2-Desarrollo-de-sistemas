@@ -9,6 +9,7 @@ import menuRouter from './routes/menu_router';
 import loginRouter from './routes/login_router';
 import logoutRouter from './routes/logout_router';
 import reservasRouter from './routes/reservas_router';
+import reservasUsuarioRouter from './routes/reservas_usuario_router';
 
 export const prisma = new PrismaClient();
 
@@ -36,6 +37,7 @@ app.use('/menu', menuRouter)
 app.use('/login', loginRouter)
 app.use('/logout', logoutRouter)
 app.use('/reservas', reservasRouter)
+app.use('/reservas/usuario', reservasUsuarioRouter)
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

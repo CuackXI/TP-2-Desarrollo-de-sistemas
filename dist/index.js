@@ -15,6 +15,7 @@ const menu_router_1 = __importDefault(require("./routes/menu_router"));
 const login_router_1 = __importDefault(require("./routes/login_router"));
 const logout_router_1 = __importDefault(require("./routes/logout_router"));
 const reservas_router_1 = __importDefault(require("./routes/reservas_router"));
+const reservas_usuario_router_1 = __importDefault(require("./routes/reservas_usuario_router"));
 exports.prisma = new client_1.PrismaClient();
 ;
 const app = (0, express_1.default)();
@@ -33,6 +34,7 @@ app.use('/menu', menu_router_1.default);
 app.use('/login', login_router_1.default);
 app.use('/logout', logout_router_1.default);
 app.use('/reservas', reservas_router_1.default);
+app.use('/reservas/usuario', reservas_usuario_router_1.default);
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
 });

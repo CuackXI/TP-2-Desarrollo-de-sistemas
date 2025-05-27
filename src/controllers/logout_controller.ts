@@ -7,7 +7,7 @@ export async function logout(req: Request, res: Response) {
             return;
         }
 
-        req.session.destroy((_) => { res.status(200).json({ ok: true }); });
+        req.session.destroy((_) => { res.status(200).json({mensaje: 'Logout sucsessful'}); });
     } catch (error) {
         res.status(500).json({ ok: false, error: (error as any).message })
     }

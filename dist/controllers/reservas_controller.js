@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getReservas = getReservas;
-exports.getReservasUsuario = getReservasUsuario;
 exports.crearReserva = crearReserva;
 exports.eliminarReserva = eliminarReserva;
 const servicio_reservas_1 = require("../services/servicio_reservas");
@@ -26,26 +25,10 @@ function getReservas(_, res) {
         }
     });
 }
-function getReservasUsuario(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const usuarioId = parseInt(req.params.usuarioId);
-            if (isNaN(usuarioId)) {
-                res.status(400).json({ mensaje: 'ID de usuario inválido' });
-            }
-            const reservas = yield servicio_reservas_1.ServicioReserva.obtener_reservas_usuario(usuarioId);
-            res.json(reservas);
-        }
-        catch (error) {
-            console.error('Error al obtener reservas del usuario:', error);
-            res.status(500).json({ mensaje: 'Error al obtener reservas del usuario' });
-        }
-    });
-}
 function crearReserva(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { mesaId, usuarioId } = req.body;
+            const { usuarioId, mesaId } = req.body;
             if (!mesaId || !usuarioId) {
                 res.status(400).json({ mensaje: 'Datos incompletos' });
             }
@@ -55,7 +38,7 @@ function crearReserva(req, res) {
         catch (error) {
             console.error('Error al crear reserva:', error);
             res.status(500).json({
-                mensaje: 'Error al crear reserva',
+                mensaje: 'Error al crear reserva'
             });
         }
     });
@@ -76,8 +59,7 @@ function eliminarReserva(req, res) {
                 res.status(404).json({ mensaje: error.message });
             }
             res.status(500).json({
-                mensaje: 'Error al eliminar reserva',
-                error: error instanceof Error ? error.message : 'Error desconocido'
+                mensaje: 'Error al eliminar reserva'
             });
         }
     });

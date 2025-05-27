@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "ee1162f3-7bcf-4c12-8af9-a160765684b9",
+		"_postman_id": "5eec2589-4358-44b6-acc7-fbb346e24687",
 		"name": "Desarrollo de sistemas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "44724689",
-		"_collection_link": "https://andreatta.postman.co/workspace/andreatta's-Workspace~866e1505-019b-4d32-8e2a-407a93adf391/collection/44724689-ee1162f3-7bcf-4c12-8af9-a160765684b9?action=share&source=collection_link&creator=44724689"
+		"_exporter_id": "45374325",
+		"_collection_link": "https://koo-1241705.postman.co/workspace/Koo's-Workspace~08a86a04-7052-450b-86ba-3c72c62c6dc2/collection/45374325-5eec2589-4358-44b6-acc7-fbb346e24687?action=share&source=collection_link&creator=45374325"
 	},
 	"item": [
 		{
@@ -104,7 +104,19 @@
 			"name": "get mesas disponibles",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/mesas/disponibles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mesas",
+						"disponibles"
+					]
+				}
 			},
 			"response": []
 		},
@@ -270,7 +282,18 @@
 			"name": "logout",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"logout"
+					]
+				}
 			},
 			"response": []
 		},
@@ -278,15 +301,145 @@
 			"name": "get reservas",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservas"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "crear reserva",
 			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"usuarioId\": 1,\n    \"mesaId\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete reserva (admin)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservas/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get reserva usuario",
+			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservas/usuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservas",
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear reserva usuario?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mesaId\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/reservas/usuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservas",
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete reserva (user)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mesaId\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/reservas/usuario/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservas",
+						"usuario",
+						"2"
+					]
+				}
 			},
 			"response": []
 		}

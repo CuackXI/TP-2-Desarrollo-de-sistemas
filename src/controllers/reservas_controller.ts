@@ -11,28 +11,9 @@ export async function getReservas(_: Request, res: Response) {
   }
 }
 
-export async function getReservasUsuario(req: Request, res: Response) {
-  try { 
-    const usuarioId = parseInt(req.params.usuarioId);
-    if (isNaN(usuarioId)) {
-      res.status(400).json({ mensaje: 'ID de usuario inválido' });
-    }
-
-    const reservas = await ServicioReserva.obtener_reservas_usuario(usuarioId);
-    res.json(reservas);
-  } catch (error) {
-    console.error('Error al obtener reservas del usuario:', error);
-    res.status(500).json({ mensaje: 'Error al obtener reservas del usuario' });
-  }
-}
-
-export async function crearReserva(req: Request, res: Response) {
-  /*
-  "\nInvalid `index_1.prisma.reserva.create()` invocation in\n/home/ubuntu/TP-2-Desarrollo-de-sistemas/dist/services/servicio_reservas.js:31:58\n\n  28 }\n  29 static crear_reserva(datos) {\n  30     return __awaiter(this, void 0, void 0, function* () {\n→ 31         const reserva = yield index_1.prisma.reserva.create(\nForeign key constraint violated on the foreign key"
-  */
-
+export async function crearReserva(req: Request, res: Response) {  
   try {
-    const { mesaId, usuarioId } = req.body;
+    const { usuarioId, mesaId } = req.body;
     
     if (!mesaId || !usuarioId) {
       res.status(400).json({ mensaje: 'Datos incompletos' });
@@ -44,7 +25,7 @@ export async function crearReserva(req: Request, res: Response) {
   } catch (error) {
     console.error('Error al crear reserva:', error);
     res.status(500).json({ 
-      mensaje: 'Error al crear reserva',});
+      mensaje: 'Error al crear reserva'});
   }
 }
 
@@ -65,8 +46,6 @@ export async function eliminarReserva(req: Request, res: Response) {
     }
     
     res.status(500).json({ 
-      mensaje: 'Error al eliminar reserva',
-      error: error instanceof Error ? error.message : 'Error desconocido'
-    });
+      mensaje: 'Error al eliminar reserva'});
   }
 }

@@ -17,7 +17,7 @@ function logout(req, res) {
                 res.status(401).json({ ok: false, error: "No inició sesión" });
                 return;
             }
-            req.session.destroy((_) => { res.status(200).json({ ok: true }); });
+            req.session.destroy((_) => { res.status(200).json({ mensaje: 'Logout sucsessful' }); });
         }
         catch (error) {
             res.status(500).json({ ok: false, error: error.message });

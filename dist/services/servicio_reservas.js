@@ -26,6 +26,13 @@ class ServicioReserva {
             });
         });
     }
+    static obtener_reserva_por_id(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return index_1.prisma.reserva.findUnique({
+                where: { id },
+            });
+        });
+    }
     static crear_reserva(datos) {
         return __awaiter(this, void 0, void 0, function* () {
             const reserva = yield index_1.prisma.reserva.create({
