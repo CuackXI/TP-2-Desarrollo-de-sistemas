@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ServicioReserva } from '../services/servicio_reservas';
+import { ServicioMesa } from '../services/servicio_mesas';
 
 export async function getMisReservas(req: Request, res: Response) {
   try {
@@ -23,11 +24,13 @@ export async function crearReservaUsuario(req: Request, res: Response) {
     }
 
     const usuarioId = req.session.user.id;
-    const { mesaId } = req.body;
+    const { numeroMesa } = req.body;
 
-    if (!mesaId) {
-        res.status(400).json({ mensaje: 'Falta el ID de la mesa' });
+    if (!numeroMesa) {
+        res.status(400).json({ mensaje: 'Falta el numero de la mesa' });
     }
+
+    const mesaId = (await ServicioMesa.obtener_mesa_por_numero(numeroMesa)).id;
 
     const reserva = await ServicioReserva.crear_reserva({ mesaId, usuarioId });
 

@@ -51,6 +51,7 @@ export class ServicioPedidos {
         
         // Calcular total
         let total = platosInfo.reduce((acc, item) => acc + item.subtotal, 0);
+        let subtotal = total;
         if (descuento) {
             total = ServicioDescuentos.calcular_descuento(total, descuento)
         }
@@ -61,6 +62,7 @@ export class ServicioPedidos {
                 usuarioId,
                 total,
                 descuento,
+                subtotal,
                 platos: {
                     create: platos.map(({ platoId, cantidad }) => ({
                         platoId,

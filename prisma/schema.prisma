@@ -41,7 +41,7 @@ model Plato {
 
 model Mesa {
   id        Int       @id @default(autoincrement())
-  numero    Int       @unique
+  numero    Int       @unique 
   disponible Boolean @default(true)
   reservas  Reserva[]
 }

@@ -1,4 +1,4 @@
-import { Mesa } from '@prisma/client';
+import { Mesa, Reserva } from '@prisma/client';
 import { prisma } from '../index';
 
 export class ServicioMesa {
@@ -23,8 +23,45 @@ export class ServicioMesa {
         });
     }
 
+    static async obtener_mesa_por_numero(numero: number): Promise<Mesa> {
+        const mesa = await prisma.mesa.findUnique({
+            where: { numero },
+        });
+
+        if (!mesa) {
+            throw new Error('Mesa no encontrada');
+        }
+        
+        return mesa;
+    }
+
+    static async obtener_mesa_por_id(id: number): Promise<Mesa & { reservas: Reserva[] }> {
+        const mesa = await prisma.mesa.findUnique({
+            where: { id },
+            include: { reservas: true },
+        });
+
+        if (!mesa) {
+            throw new Error('Mesa no encontrada');
+        }
+        
+        return mesa;
+    }
+
     // Admin
     static async eliminar_mesa(id: number): Promise<Mesa> {
+        const mesa = await ServicioMesa.obtener_mesa_por_id(id);
+
+        if (!mesa) {
+            throw new Error(`No se encontró la mesa con ID ${id}`);
+        }
+
+        for (const reserva of mesa.reservas) {
+            await prisma.reserva.delete({
+            where: { id: reserva.id },
+            });
+        }
+
         return prisma.mesa.delete({
             where: { id },
         });

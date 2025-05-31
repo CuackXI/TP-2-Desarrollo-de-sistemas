@@ -11,24 +11,6 @@ export async function getReservas(_: Request, res: Response) {
   }
 }
 
-export async function crearReserva(req: Request, res: Response) {  
-  try {
-    const { usuarioId, mesaId } = req.body;
-    
-    if (!mesaId || !usuarioId) {
-      res.status(400).json({ mensaje: 'Datos incompletos' });
-    }
-
-    const reserva = await ServicioReserva.crear_reserva({mesaId, usuarioId,});
-    
-    res.status(201).json(reserva);
-  } catch (error) {
-    console.error('Error al crear reserva:', error);
-    res.status(500).json({ 
-      mensaje: 'Error al crear reserva'});
-  }
-}
-
 export async function eliminarReserva(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);

@@ -5,7 +5,7 @@
     "strict": true,                     // Activar modo estricto (opcional)
     "esModuleInterop": true,            // Permite la importación de módulos CommonJS
     "skipLibCheck": true,               // Omite la comprobación de tipos de las bibliotecas
-    "outDir": "./dist",                 // Carpeta de salida donde se generarán los archivos JS
+    "outDir": "./srcOut",                 // Carpeta de salida donde se generarán los archivos JS
     "rootDir": "./src",                 // Carpeta de origen con tus archivos TypeScript
     "resolveJsonModule": true,          // Permite importar archivos JSON como módulos (opcional)
     "removeComments": true,             // Eliminar comentarios del código generado

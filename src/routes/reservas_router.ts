@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getReservas, crearReserva, eliminarReserva } from '../controllers/reservas_controller';
+import { getReservas, eliminarReserva } from '../controllers/reservas_controller';
 import { SessionCheck } from '../auth/session_auth';
 
 const reservasRouter = Router();
