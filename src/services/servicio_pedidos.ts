@@ -1,46 +1,95 @@
-import { Pedido, EstadoPedido } from '@prisma/client';
+import { Pedido, EstadoPedido, Prisma } from '@prisma/client';
 import { prisma } from '../index';
+import { ServicioDescuentos } from './servicio_descuentos';
 
-export class ServicioPlato {
-    // Admin
+export class ServicioPedidos {
+    // Admin - Obtener todos los pedidos con usuario y platos
     static async obtener_pedidos(): Promise<Pedido[]> {
-        return prisma.pedido.findMany();
+        return prisma.pedido.findMany({
+            include: {
+                usuario: true,
+                platos: {
+                    include: { plato: true }
+                }
+            }
+        });
     }
 
-    // Cliente
+    // Cliente - Obtener pedidos de un usuario específico
     static async obtener_pedidos_usuario(usuarioId: number): Promise<Pedido[]> {
         return prisma.pedido.findMany({
-            where: {
-                usuarioId: usuarioId,
-            },
+            where: { usuarioId },
+            include: {
+                platos: {
+                    include: { plato: true }
+                }
+            }
         });
     }
 
-    // Admin 
-    // mentira el total deberia d ser segun el descuento qcy lo veo dsp
-    // y lo d pedido plato lo tengo q ver aun tmb, tengo el cerebro ded
-    static async crear_pedido(datos: Omit<Pedido, 'id' | 'platos' | 'estado' | 'creadoEn'>): Promise<Pedido> {
-        return prisma.pedido.create({
+    static async crear_pedido({
+            usuarioId,
+            platos
+        }: {
+            usuarioId: number;
+            platos: { platoId: number; cantidad: number }[];
+        }): Promise<Pedido> {
+            const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);
+
+        // Buscar precios de los platos
+        const platosInfo = await Promise.all(
+            platos.map(async ({ platoId, cantidad }) => {
+                const plato = await prisma.plato.findUnique({ where: { id: platoId } });
+                if (!plato) throw new Error(`Plato con ID ${platoId} no encontrado`);
+                return {
+                    platoId,
+                    cantidad,
+                    subtotal: plato.precio * cantidad
+                };
+            })
+        );
+        
+        // Calcular total
+        let total = platosInfo.reduce((acc, item) => acc + item.subtotal, 0);
+        if (descuento) {
+            total = ServicioDescuentos.calcular_descuento(total, descuento)
+        }
+
+        // Crear pedido
+        const nuevoPedido = await prisma.pedido.create({
             data: {
-                usuarioId: datos.usuarioId,
-                total : datos.total,
-                descuento: datos.descuento,
+                usuarioId,
+                total,
+                descuento,
+                platos: {
+                    create: platos.map(({ platoId, cantidad }) => ({
+                        platoId,
+                        cantidad
+                    }))
+                }
             },
+            include: {
+                platos: {
+                    include: { plato: true }
+                }
+            }
         });
+
+        return nuevoPedido;
     }
 
-    // Admin
-    static async actualizar_disponibilidad(id: number, estado: EstadoPedido): Promise<Pedido> {
+    // Admin - Cambiar estado del pedido
+    static async actualizar_estado(id: number, estado: EstadoPedido): Promise<Pedido> {
         return prisma.pedido.update({
             where: { id },
-            data: { estado },
+            data: { estado }
         });
     }
-    
-    // Admin
+
+    // Admin - Eliminar pedido
     static async eliminar_pedido(id: number): Promise<Pedido> {
         return prisma.pedido.delete({
-            where: { id },
+            where: { id }
         });
     }
 }

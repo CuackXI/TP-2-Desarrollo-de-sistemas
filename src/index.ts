@@ -37,7 +37,7 @@ app.use('/menu', menuRouter)
 app.use('/login', loginRouter)
 app.use('/logout', logoutRouter)
 app.use('/reservas', reservasRouter)
-app.use('/reservas/usuario', reservasUsuarioRouter)
+app.use('/mis_reservas', reservasUsuarioRouter)
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

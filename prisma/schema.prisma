@@ -60,6 +60,7 @@ model Pedido {
   usuarioId   Int
   platos      PedidoPlato[]
   estado      EstadoPedido   @default(PENDIENTE)
+  subtotal    Int
   total       Decimal
   descuento   Int?
   creadoEn    DateTime       @default(now())
