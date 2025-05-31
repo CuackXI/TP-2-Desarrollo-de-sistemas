@@ -56,12 +56,6 @@ export class ServicioMesa {
             throw new Error(`No se encontró la mesa con ID ${id}`);
         }
 
-        for (const reserva of mesa.reservas) {
-            await prisma.reserva.delete({
-            where: { id: reserva.id },
-            });
-        }
-
         return prisma.mesa.delete({
             where: { id },
         });

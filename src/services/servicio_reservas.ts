@@ -1,5 +1,6 @@
-import { Reserva } from '@prisma/client';
+import { Reserva, RolUsuario } from '@prisma/client';
 import { prisma } from '../index';
+import { ServicioMesa } from './servicio_mesas';
 
 export class ServicioReserva {
     // Admin
@@ -23,9 +24,14 @@ export class ServicioReserva {
         });
     }
 
-
-    // Admin
-    static async crear_reserva(datos: Omit<Reserva, 'id' | 'usuario' | 'mesa'>): Promise<Reserva> {
+    // Cliente
+    static async crear_reserva(datos: Omit<Reserva, 'id' | 'usuario' | 'mesa'>, rol: RolUsuario): Promise<Reserva> {
+        const mesa = await ServicioMesa.obtener_mesa_por_id(datos.mesaId);
+        
+        if (!mesa.disponible && rol.toString() === 'CLIENTE') {
+            throw new Error('La mesa no está disponible.');
+        }
+        
         const reserva = await prisma.reserva.create({
             data: datos
         });
@@ -56,14 +62,18 @@ export class ServicioReserva {
             where: { id },
         });
 
-        await prisma.mesa.update({
-            where: {
-                id: (await reserva).mesaId
-            },
-            data: {
-                disponible: true
-            }
-        })
+        const mesaId = reserva.mesaId;
+
+        const reservasRestantes = await prisma.reserva.findMany({
+            where: { mesaId },
+        });
+
+        if (reservasRestantes.length === 0) {
+            await prisma.mesa.update({
+                where: { id: mesaId },
+                data: { disponible: true },
+        });
+    }
 
     }
 }

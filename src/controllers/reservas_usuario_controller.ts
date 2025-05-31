@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ServicioReserva } from '../services/servicio_reservas';
 import { ServicioMesa } from '../services/servicio_mesas';
+import { RolUsuario } from '@prisma/client';
 
 export async function getMisReservas(req: Request, res: Response) {
   try {
@@ -23,6 +24,7 @@ export async function crearReservaUsuario(req: Request, res: Response) {
         throw new Error('No inició sesión');
     }
 
+    const rol = req.session.user.rol as RolUsuario;
     const usuarioId = req.session.user.id;
     const { numeroMesa } = req.body;
 
@@ -32,7 +34,9 @@ export async function crearReservaUsuario(req: Request, res: Response) {
 
     const mesaId = (await ServicioMesa.obtener_mesa_por_numero(numeroMesa)).id;
 
-    const reserva = await ServicioReserva.crear_reserva({ mesaId, usuarioId });
+    let reserva;
+
+    reserva = await ServicioReserva.crear_reserva({ mesaId, usuarioId }, rol);
 
     res.status(201).json(reserva);
   } catch (error) {

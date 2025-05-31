@@ -2,9 +2,12 @@ import { prisma } from '../index';
 
 export class ServicioDescuentos {
     static async obtener_descuento_por_usuario(usuarioId: number): Promise<number> {
-        const cantidadPedidos = await prisma.pedido.count({
+        let cantidadPedidos = await prisma.pedido.count({
             where: { usuarioId }
         });
+
+        // Para considerar el pedido actual
+        cantidadPedidos += 1;
 
         if (cantidadPedidos > 7) return 50;      // TopPremium
         if (cantidadPedidos > 5) return 20;      // Premium

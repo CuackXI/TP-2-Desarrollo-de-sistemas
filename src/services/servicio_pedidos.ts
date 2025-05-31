@@ -27,16 +27,25 @@ export class ServicioPedidos {
         });
     }
 
-    static async crear_pedido({
-            usuarioId,
-            platos
-        }: {
-            usuarioId: number;
-            platos: { platoId: number; cantidad: number }[];
-        }): Promise<Pedido> {
-            const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);
+    static async obtener_estados_pedidos_usuario(usuarioId: number): Promise<{ id: number, estado: EstadoPedido }[]> {
+        const pedidos = await prisma.pedido.findMany({
+            where: { usuarioId },
+            select: {
+                id: true,
+                estado: true
+            }
+        });
+        return pedidos;
+    }
 
-        // Buscar precios de los platos
+    static async crear_pedido({usuarioId, platos}: {usuarioId: number; platos: { platoId: number; cantidad: number }[];}): Promise<Pedido> {
+        
+        const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);
+
+        if (!Array.isArray(platos) || platos.length === 0) {
+            throw new Error('Se debe proporcionar al menos un plato para crear el pedido.');
+        }
+
         const platosInfo = await Promise.all(
             platos.map(async ({ platoId, cantidad }) => {
                 const plato = await prisma.plato.findUnique({ where: { id: platoId } });
@@ -49,20 +58,16 @@ export class ServicioPedidos {
             })
         );
         
-        // Calcular total
         let total = platosInfo.reduce((acc, item) => acc + item.subtotal, 0);
         let subtotal = total;
-        if (descuento) {
-            total = ServicioDescuentos.calcular_descuento(total, descuento)
-        }
+        total = ServicioDescuentos.calcular_descuento(total, descuento)
 
-        // Crear pedido
         const nuevoPedido = await prisma.pedido.create({
             data: {
                 usuarioId,
+                subtotal,
                 total,
                 descuento,
-                subtotal,
                 platos: {
                     create: platos.map(({ platoId, cantidad }) => ({
                         platoId,
