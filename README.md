@@ -7,9 +7,11 @@ Repositorio de la api web backend para la materia desarrollo de sistemas.
 
 ## Cómo compilar y correr el proyecto
 Se deben ejecutar los siguientes comandos en este orden:
+```bash
 - **npm install** (para las dependencias)
 - **npm run build** (para traspilar el código a js)
-- **npm run start** (para levantar la api) 
+- **npm run start** (para levantar la api)
+``` 
 
 ## Cómo migrar la base de datos
 - **npx prisma migrate dev --name init**
