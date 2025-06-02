@@ -24,7 +24,6 @@ export async function getMesasDisponibles(_: Request, res: Response) {
 export async function crearMesa(req: Request, res: Response) {
   try {
     const { numero } = req.body;
-  
     
     if (typeof numero !== 'number') {
       res.status(400).json({ mensaje: 'Datos inválidos' });

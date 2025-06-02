@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getMesas, crearMesa, eliminarMesa, getMesasDisponibles } from '../controllers/mesas_controller';
+import { getMesas, crearMesa, eliminarMesa } from '../controllers/mesas_controller';
 import { SessionCheck } from '../auth/session_auth';
 
 const mesasRouter = Router();
