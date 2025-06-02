@@ -1,5 +1,6 @@
 import express from 'express';
 import session from 'express-session';
+import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import usuariosRoutes from './routes/usuarios_routes';
 import registerRoutes from './routes/register_routes';
@@ -54,6 +55,11 @@ app.use('/mis_reservas', reservasUsuarioRouter)
 // Pedidos
 app.use('/pedidos', pedidosRouter)
 app.use('/mis_pedidos', misPedidosRouter)
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
