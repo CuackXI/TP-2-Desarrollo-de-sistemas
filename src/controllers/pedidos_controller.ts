@@ -14,13 +14,8 @@ export async function getPedidos(_: Request, res: Response) {
 export async function actualizarEstadoPedido(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);
-    const { estado } = req.body;
 
-    if (isNaN(id) || !estado) {
-      res.status(400).json({ mensaje: 'Datos inválidos' });
-    }
-
-    const pedidoActualizado = await ServicioPedidos.actualizar_estado(id, estado);
+    const pedidoActualizado = await ServicioPedidos.actualizar_estado_siguiente(id);
     res.json(pedidoActualizado);
   } catch (error) {
     console.error('Error al actualizar estado del pedido:', error);

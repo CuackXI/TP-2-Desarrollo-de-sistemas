@@ -30,4 +30,11 @@ export class SessionCheck {
             next();
         }
     }
+
+    static loginUser(req: Request, usuario: User){
+        req.session.user = {
+            id: usuario.id,
+            rol: usuario.rol
+        }
+    }
 }

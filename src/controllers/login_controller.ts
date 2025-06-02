@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ServicioUsuario } from '../services/servicio_usuarios';
+import { SessionCheck } from '../auth/session_auth';
 
 export async function login(req: Request, res: Response) {
   try {
@@ -14,20 +15,16 @@ export async function login(req: Request, res: Response) {
       const contraseñaValida = ServicioUsuario.comparar_contraseña(contraseña, usuario);
       
       if (!contraseñaValida) {
-        res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        res.status(401).json({ mensaje: 'Contraseña incorrecta' });
       }
       
-      // Autenticación
-      req.session.user = {
-        id: usuario.id,
-        rol: usuario.rol
-      }
+      SessionCheck.loginUser(req, usuario)
 
-      res.status(201).json({mensaje: 'Login sucsessful'})
+      res.status(200).json({mensaje: 'Login sucsessful'})
 
     } catch (error: any) {
       if (error.message === 'Usuario no encontrado') {
-        res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        res.status(404).json({ mensaje: 'Usuario no encontrado' });
       }
     }
 

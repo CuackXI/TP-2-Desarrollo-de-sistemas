@@ -86,10 +86,27 @@ export class ServicioPedidos {
     }
 
     // Admin - Cambiar estado del pedido
-    static async actualizar_estado(id: number, estado: EstadoPedido): Promise<Pedido> {
-        return prisma.pedido.update({
+    static async actualizar_estado_siguiente(id: number): Promise<Pedido> {
+        let estado = await prisma.pedido.findMany({
             where: { id },
-            data: { estado }
+            select: {
+                estado: true
+            }
+        });
+
+        let new_estado = estado[0].estado
+
+        if (new_estado == "PENDIENTE"){
+            new_estado = "EN_COCINA"
+        } else if (new_estado == "EN_COCINA") {
+            new_estado = "ENVIADO"
+        } else if (new_estado == "ENVIADO"){
+            throw Error("El pedido ya fue entregado")
+        }
+
+        return await prisma.pedido.update({
+            where: { id },
+            data: { estado: new_estado }
         });
     }
 
