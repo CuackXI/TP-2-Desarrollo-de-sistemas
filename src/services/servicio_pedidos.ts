@@ -1,119 +1,159 @@
 import { Pedido, EstadoPedido, Prisma } from '@prisma/client';
 import { prisma } from '../index';
 import { ServicioDescuentos } from './servicio_descuentos';
+import { ErrorDB } from '../errores/errores';
 
 export class ServicioPedidos {
+    static ERROR_OBTENER_PEDIDOS = 'Error al obtener pedidos';
+    static ERROR_CREAR_PEDIDO = 'Error al crear el pedido';
+    static ERROR_PEDIDO_ENVIADO = 'El pedido ya fue entregado';
+    static ERROR_PEDIDO_NO_ENCONTRADO = 'Pedido no encontrado';
+    static ERROR_ELIMINAR_PEDIDO = 'Error al eliminar el pedido';
+
     // Admin - Obtener todos los pedidos con usuario y platos
     static async obtener_pedidos(): Promise<Pedido[]> {
-        return prisma.pedido.findMany({
-            include: {
-                usuario: true,
-                platos: {
-                    include: { plato: true }
+        try {
+            return await prisma.pedido.findMany({
+                include: {
+                    usuario: true,
+                    platos: {
+                        include: { plato: true }
+                    }
                 }
-            }
-        });
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            throw new ErrorDB(ServicioPedidos.ERROR_OBTENER_PEDIDOS, 500);
+        }
     }
 
     // Cliente - Obtener pedidos de un usuario específico
     static async obtener_pedidos_usuario(usuarioId: number): Promise<Pedido[]> {
-        return prisma.pedido.findMany({
-            where: { usuarioId },
-            include: {
-                platos: {
-                    include: { plato: true }
+        try {
+            return await prisma.pedido.findMany({
+                where: { usuarioId },
+                include: {
+                    platos: {
+                        include: { plato: true }
+                    }
                 }
-            }
-        });
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            throw new ErrorDB(ServicioPedidos.ERROR_OBTENER_PEDIDOS, 500);
+        }
     }
 
     static async obtener_estados_pedidos_usuario(usuarioId: number): Promise<{ id: number, estado: EstadoPedido }[]> {
-        const pedidos = await prisma.pedido.findMany({
-            where: { usuarioId },
-            select: {
-                id: true,
-                estado: true
-            }
-        });
-        return pedidos;
+        try {
+            return await prisma.pedido.findMany({
+                where: { usuarioId },
+                select: {
+                    id: true,
+                    estado: true
+                }
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            throw new ErrorDB(ServicioPedidos.ERROR_OBTENER_PEDIDOS, 500);
+        }
     }
 
+    // hay q meter el error d este me dio fiaca
     static async crear_pedido({usuarioId, platos}: {usuarioId: number; platos: { platoId: number; cantidad: number }[];}): Promise<Pedido> {
-        
-        const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);
+        try {
+            const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);
 
-        if (!Array.isArray(platos) || platos.length === 0) {
-            throw new Error('Se debe proporcionar al menos un plato para crear el pedido.');
-        }
-
-        const platosInfo = await Promise.all(
-            platos.map(async ({ platoId, cantidad }) => {
-                const plato = await prisma.plato.findUnique({ where: { id: platoId } });
-                if (!plato) throw new Error(`Plato con ID ${platoId} no encontrado`);
-                return {
-                    platoId,
-                    cantidad,
-                    subtotal: plato.precio * cantidad
-                };
-            })
-        );
-        
-        let total = platosInfo.reduce((acc, item) => acc + item.subtotal, 0);
-        let subtotal = total;
-        total = ServicioDescuentos.calcular_descuento(total, descuento)
-
-        const nuevoPedido = await prisma.pedido.create({
-            data: {
-                usuarioId,
-                subtotal,
-                total,
-                descuento,
-                platos: {
-                    create: platos.map(({ platoId, cantidad }) => ({
-                        platoId,
-                        cantidad
-                    }))
-                }
-            },
-            include: {
-                platos: {
-                    include: { plato: true }
-                }
+            if (!Array.isArray(platos) || platos.length === 0) {
+                throw new Error('Se debe proporcionar al menos un plato para crear el pedido.');
             }
-        });
 
-        return nuevoPedido;
+            const platosInfo = await Promise.all(
+                platos.map(async ({ platoId, cantidad }) => {
+                    const plato = await prisma.plato.findUnique({ where: { id: platoId } });
+                    if (!plato) throw new Error(`Plato con ID ${platoId} no encontrado`);
+                    return {
+                        platoId,
+                        cantidad,
+                        subtotal: plato.precio * cantidad
+                    };
+                })
+            );
+            
+            let total = platosInfo.reduce((acc, item) => acc + item.subtotal, 0);
+            let subtotal = total;
+            total = ServicioDescuentos.calcular_descuento(total, descuento)
+
+            const nuevoPedido = await prisma.pedido.create({
+                data: {
+                    usuarioId,
+                    subtotal,
+                    total,
+                    descuento,
+                    platos: {
+                        create: platos.map(({ platoId, cantidad }) => ({
+                            platoId,
+                            cantidad
+                        }))
+                    }
+                },
+                include: {
+                    platos: {
+                        include: { plato: true }
+                    }
+                }
+            });
+
+            return nuevoPedido;
+        } catch (error: any) {
+            console.log(error.message);
+            throw new ErrorDB(ServicioPedidos.ERROR_CREAR_PEDIDO, 500);
+        }
     }
 
     // Admin - Cambiar estado del pedido
     static async actualizar_estado_siguiente(id: number): Promise<Pedido> {
-        let estado = await prisma.pedido.findMany({
-            where: { id },
-            select: {
-                estado: true
+        try {
+            const pedido = await prisma.pedido.findUnique({
+                where: { id }
+            });
+
+            if (!pedido) {
+                throw new ErrorDB(ServicioPedidos.ERROR_PEDIDO_NO_ENCONTRADO, 404);
             }
-        });
 
-        let new_estado = estado[0].estado
+            let new_estado = pedido.estado;
 
-        if (new_estado == "PENDIENTE"){
-            new_estado = "EN_COCINA"
-        } else if (new_estado == "EN_COCINA") {
-            new_estado = "ENVIADO"
-        } else if (new_estado == "ENVIADO"){
-            throw Error("El pedido ya fue entregado")
+            if (new_estado === 'PENDIENTE') {
+                new_estado = 'EN_COCINA';
+            } else if (new_estado === 'EN_COCINA') {
+                new_estado = 'ENVIADO';
+            } else if (new_estado === 'ENVIADO') {
+                throw new ErrorDB(ServicioPedidos.ERROR_PEDIDO_ENVIADO, 400);
+            }
+
+            return await prisma.pedido.update({
+                where: { id },
+                data: { estado: new_estado }
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            if (error instanceof ErrorDB) throw error;
+            throw new ErrorDB('Error al actualizar el estado del pedido', 500);
         }
 
-        return await prisma.pedido.update({
-            where: { id },
-            data: { estado: new_estado }
-        });
     }
 
     // Admin - Eliminar pedido
     static async eliminar_pedido(id: number): Promise<Pedido> {
-        return prisma.pedido.delete({
-            where: { id }
-        });
+        try {
+            return await prisma.pedido.delete({
+                where: { id }
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            if (error instanceof ErrorDB) throw error;
+            throw new ErrorDB(ServicioPedidos.ERROR_ELIMINAR_PEDIDO, 500);
+        }
     }
 }

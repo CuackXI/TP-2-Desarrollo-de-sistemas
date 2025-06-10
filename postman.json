@@ -1,17 +1,17 @@
 {
 	"info": {
-		"_postman_id": "ee1162f3-7bcf-4c12-8af9-a160765684b9",
+		"_postman_id": "5cfa6e45-d97c-4850-9be9-44f571b82942",
 		"name": "Desarrollo de sistemas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "44724689",
-		"_collection_link": "https://andreatta.postman.co/workspace/866e1505-019b-4d32-8e2a-407a93adf391/collection/44724689-ee1162f3-7bcf-4c12-8af9-a160765684b9?action=share&source=collection_link&creator=44724689"
+		"_exporter_id": "45374325",
+		"_collection_link": "https://koo-1241705.postman.co/workspace/Koo's-Workspace~08a86a04-7052-450b-86ba-3c72c62c6dc2/collection/45374325-5cfa6e45-d97c-4850-9be9-44f571b82942?action=share&source=collection_link&creator=45374325"
 	},
 	"item": [
 		{
 			"name": "Cliente",
 			"item": [
 				{
-					"name": "get mesas disponibles",
+					"name": "menu",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -23,14 +23,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/mesas_disponibles",
+							"raw": "http://localhost:3000/menu",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"mesas_disponibles"
+								"menu"
 							]
 						}
 					},
@@ -59,32 +59,6 @@
 							"port": "3000",
 							"path": [
 								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "menu",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:3000/menu",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"menu"
 							]
 						}
 					},
@@ -128,7 +102,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Nico\",\r\n    \"contraseña\": \"123\"\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/logout",
@@ -139,6 +113,32 @@
 							"port": "3000",
 							"path": [
 								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mesas disponibles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/mesas_disponibles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"mesas_disponibles"
 							]
 						}
 					},
@@ -182,7 +182,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numeroMesa\": 1\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -241,7 +241,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"platos\": [\r\n    { \"platoId\": 1, \"cantidad\": 2 },\r\n    { \"platoId\": 3, \"cantidad\": 1 }\r\n  ]\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -272,7 +272,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"platos\": [\r\n    { \"platoId\": 1, \"cantidad\": 2 },\r\n    { \"platoId\": 3, \"cantidad\": 1 }\r\n  ]\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -383,7 +383,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"contraseña\": \"123\"\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/mesas/1",
@@ -435,7 +435,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nombre\": \"Milanesa de carne\",\n    \"descripcion\": \"Milanesa de carne sola\",\n    \"precio\": 1000,\n    \"categoria\": \"PRINCIPAL\"\n}",
+							"raw": "{\n    \"nombre\": \"Tiramisu\",\n    \"descripcion\": \"Postre italiano con capas de bizcocho al café, crema de mascarpone y cacao\",\n    \"precio\": 3000,\n    \"categoria\": \"POSTRE\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -463,7 +463,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nombre\": \"Volcan de chocolate\",\n    \"descripcion\": \"nunca comi esto en mi vida\",\n    \"precio\": 2000,\n    \"categoria\": \"POSTRE\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/platos/4",
@@ -490,7 +490,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numero\": 15\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/reservas",
@@ -513,7 +513,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numero\": 15\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/reservas/7",
@@ -540,7 +540,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numero\": 15\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/pedidos",
@@ -563,7 +563,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"estado\": \"EN_COCINA\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -571,7 +571,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/pedidos/1",
+							"raw": "http://localhost:3000/pedidos/15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -579,7 +579,7 @@
 							"port": "3000",
 							"path": [
 								"pedidos",
-								"1"
+								"15"
 							]
 						}
 					},
@@ -592,7 +592,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numero\": 15\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:3000/pedidos/1",

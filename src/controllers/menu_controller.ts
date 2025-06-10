@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ServicioPlato } from '../services/servicio_platos';
 
-export async function getPlatos(req: Request, res: Response) {
+export async function getPlatos(_: Request, res: Response) {
   try {
     const platos = await ServicioPlato.obtener_platos();
     res.json(platos);
