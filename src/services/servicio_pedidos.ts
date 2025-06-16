@@ -1,7 +1,9 @@
 import { Pedido, EstadoPedido, Prisma } from '@prisma/client';
 import { prisma } from '../index';
 import { ServicioDescuentos } from './servicio_descuentos';
+import { ServicioUsuario } from './servicio_usuarios';
 import { ErrorDB } from '../errores/errores';
+import { ServicioPlato } from './servicio_platos';
 
 export class ServicioPedidos {
     static ERROR_OBTENER_PEDIDOS = 'Error al obtener pedidos';
@@ -59,29 +61,57 @@ export class ServicioPedidos {
         }
     }
 
+    static async obtener_pedido_por_id(id: number): Promise<Pedido> {
+        let pedido;
+        try {
+            pedido = await prisma.pedido.findUnique({
+                where: { id }
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            throw new ErrorDB(ServicioPedidos.ERROR_PEDIDO_NO_ENCONTRADO, 500);
+        }
+
+        if (!pedido) {
+            throw new ErrorDB(ServicioPedidos.ERROR_PEDIDO_NO_ENCONTRADO, 404);
+        }
+
+        return pedido;
+    }
+
     // hay q meter el error d este me dio fiaca
     static async crear_pedido({usuarioId, platos}: {usuarioId: number; platos: { platoId: number; cantidad: number }[];}): Promise<Pedido> {
         try {
             const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);
+            const usuario = await ServicioUsuario.get_usuario_por_id(usuarioId);
 
             if (!Array.isArray(platos) || platos.length === 0) {
                 throw new Error('Se debe proporcionar al menos un plato para crear el pedido.');
             }
 
-            const platosInfo = await Promise.all(
+            let platosInfo;
+
+            try{
+                platosInfo = await Promise.all(
                 platos.map(async ({ platoId, cantidad }) => {
-                    const plato = await prisma.plato.findUnique({ where: { id: platoId } });
-                    if (!plato) throw new Error(`Plato con ID ${platoId} no encontrado`);
-                    return {
-                        platoId,
-                        cantidad,
-                        subtotal: plato.precio * cantidad
-                    };
-                })
-            );
+                        const plato = await ServicioPlato.obtener_plato_por_id(platoId);
+                        return {
+                            platoId,
+                            cantidad,
+                            subtotal: plato.precio * cantidad
+                        };
+                    })
+                );
+            } catch (error: any) {
+                if (error.name == ErrorDB.TIPO) {
+                    throw error;
+                }
+                console.log(error.message);
+                throw new ErrorDB(ServicioPedidos.ERROR_CREAR_PEDIDO, 500);
+            }
             
             let total = platosInfo.reduce((acc, item) => acc + item.subtotal, 0);
-            let subtotal = total;
+            const subtotal = total;
             total = ServicioDescuentos.calcular_descuento(total, descuento)
 
             const nuevoPedido = await prisma.pedido.create({
@@ -90,6 +120,7 @@ export class ServicioPedidos {
                     subtotal,
                     total,
                     descuento,
+                    domicilio: usuario.direccion,
                     platos: {
                         create: platos.map(({ platoId, cantidad }) => ({
                             platoId,
@@ -106,6 +137,10 @@ export class ServicioPedidos {
 
             return nuevoPedido;
         } catch (error: any) {
+            if (error.name == ErrorDB.TIPO) {
+                throw error;
+            }
+
             console.log(error.message);
             throw new ErrorDB(ServicioPedidos.ERROR_CREAR_PEDIDO, 500);
         }
@@ -114,9 +149,7 @@ export class ServicioPedidos {
     // Admin - Cambiar estado del pedido
     static async actualizar_estado_siguiente(id: number): Promise<Pedido> {
         try {
-            const pedido = await prisma.pedido.findUnique({
-                where: { id }
-            });
+            const pedido = await ServicioPedidos.obtener_pedido_por_id(id);
 
             if (!pedido) {
                 throw new ErrorDB(ServicioPedidos.ERROR_PEDIDO_NO_ENCONTRADO, 404);

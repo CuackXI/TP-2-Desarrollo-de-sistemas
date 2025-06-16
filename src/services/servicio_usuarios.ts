@@ -2,6 +2,14 @@ import { Usuario } from '@prisma/client';
 import { prisma } from '../index';
 import { ErrorDB } from '../errores/errores';
 
+interface RegisterUsuario {
+    nombre: string;
+    correo: string;
+    telefono: string;
+    direccion: string;
+    contraseña: string;
+}
+
 export class ServicioUsuario {
     static ERROR_NO_USUARIO = 'Usuario no encontrado';
     static ERROR_ENCONTRANDO_USUARIO = 'Error al encontrar usuario';
@@ -22,10 +30,16 @@ export class ServicioUsuario {
     }
 
     // Cliente
-    static async crear_usuario(datos: Omit<Usuario, 'id' | 'rol' | 'pedidos' | 'reservas'>): Promise<Usuario> {
+    static async crear_usuario(datos: RegisterUsuario): Promise<Usuario> {
         try {
             return await prisma.usuario.create({
-                data: datos,
+                data: {
+                    nombre: datos.nombre,
+                    correo: datos.correo,
+                    telefono: datos.telefono,
+                    direccion: datos.direccion,
+                    contraseña: datos.contraseña,
+                }
             });
 
         } catch (error: any) {
@@ -46,6 +60,26 @@ export class ServicioUsuario {
             throw new ErrorDB(ServicioUsuario.ERROR_ELIMINANDO_USUARIO, 404);
         }
     }
+
+    static async get_usuario_por_id(id: number): Promise<Usuario> {
+        let usuario;
+        try {
+            usuario = await prisma.usuario.findUnique({
+                where: { id },
+            });
+            
+        } catch (error: any) {
+            console.log(error.message)
+            throw new ErrorDB(ServicioUsuario.ERROR_ENCONTRANDO_USUARIO, 500);
+        }
+
+        if (!usuario) {
+            throw new ErrorDB(ServicioUsuario.ERROR_NO_USUARIO, 404);
+        }
+        
+        return usuario;
+    }
+
 
     static async get_usuario_por_nombre(nombre: string): Promise<Usuario> {
         let usuario;

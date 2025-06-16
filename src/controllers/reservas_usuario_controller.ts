@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ServicioReserva } from '../services/servicio_reservas';
 import { ServicioMesa } from '../services/servicio_mesas';
 import { RolUsuario } from '@prisma/client';
+import { ErrorDB } from '../errores/errores';
 
 export async function getMisReservas(req: Request, res: Response) {
   try {
@@ -12,7 +13,11 @@ export async function getMisReservas(req: Request, res: Response) {
     const usuarioId = req.session.user.id;
     const reservas = await ServicioReserva.obtener_reservas_usuario(usuarioId);
     res.json(reservas);
-  } catch (error) {
+  } catch (error: any) {
+
+    if (error.name == ErrorDB.TIPO) {
+      res.status(error.status).json({ mensaje: error.message });
+    }
     console.error('Error al obtener mis reservas:', error);
     res.status(500).json({ mensaje: 'Error al obtener reservas del usuario' });
   }
@@ -39,7 +44,11 @@ export async function crearReservaUsuario(req: Request, res: Response) {
     reserva = await ServicioReserva.crear_reserva({ mesaId, usuarioId }, rol);
 
     res.status(201).json(reserva);
-  } catch (error) {
+  } catch (error: any) {
+
+    if (error.name == ErrorDB.TIPO) {
+      res.status(error.status).json({ mensaje: error.message });
+    }
     console.error('Error al crear reserva del usuario:', error);
     res.status(500).json({ mensaje: 'Error al crear reserva' });
   }
@@ -66,7 +75,11 @@ export async function eliminarMiReserva(req: Request, res: Response) {
 
     await ServicioReserva.eliminar_reserva(id);
     res.json({ mensaje: 'Reserva eliminada correctamente' });
-  } catch (error) {
+  } catch (error: any) {
+
+    if (error.name == ErrorDB.TIPO) {
+      res.status(error.status).json({ mensaje: error.message });
+    }
     console.error('Error al eliminar reserva del usuario:', error);
     res.status(500).json({ mensaje: 'Error al eliminar reserva' });
   }

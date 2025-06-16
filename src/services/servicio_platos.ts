@@ -6,6 +6,7 @@ export class ServicioPlato {
     static ERROR_OBTENER_PLATOS = 'Error al obtener platos';
     static ERROR_CREAR_PLATO = 'Error al crear el plato';
     static ERROR_ELIMINAR_PLATO = 'Error al eliminar el plato';
+    static ERROR_PLATO_NO_ENCONTRADO = 'Plato no encontrado';
 
     // Admin
     static async obtener_platos(): Promise<Plato[]> {
@@ -15,6 +16,24 @@ export class ServicioPlato {
             console.log(error.message);
             throw new ErrorDB(ServicioPlato.ERROR_OBTENER_PLATOS, 500);
         }
+    }
+
+    static async obtener_plato_por_id(id: number): Promise<Plato> {
+        let plato;
+        try {
+            plato = await prisma.plato.findUnique({
+                where: { id }
+            });
+        } catch (error: any) {
+            console.log(error.message);
+            throw new ErrorDB(ServicioPlato.ERROR_PLATO_NO_ENCONTRADO, 500);
+        }
+
+        if (!plato) {
+            throw new ErrorDB(ServicioPlato.ERROR_PLATO_NO_ENCONTRADO, 404);
+        }
+
+        return plato;
     }
 
     // Cliente

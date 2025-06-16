@@ -60,6 +60,7 @@ model Pedido {
   usuarioId   Int
   platos      PedidoPlato[]
   estado      EstadoPedido   @default(PENDIENTE)
+  domicilio   String         @default("Sin información")
   subtotal    Int
   total       Decimal
   descuento   Int?

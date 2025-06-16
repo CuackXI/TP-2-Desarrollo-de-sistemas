@@ -32,9 +32,23 @@ export class SessionCheck {
     }
 
     static loginUser(req: Request, usuario: User){
+        try{
         req.session.user = {
             id: usuario.id,
             rol: usuario.rol
+        }
+        }
+        catch(error: any){
+            throw new Error("Error en autenticación");
+        }
+    }
+
+    static logoutUser(req: Request){
+        try{
+            req.session.destroy((_) => {});
+        }
+        catch(error: any){
+            throw new Error("Error en autenticación");
         }
     }
 }

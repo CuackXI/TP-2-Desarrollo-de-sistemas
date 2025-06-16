@@ -56,6 +56,7 @@ app.use('/mis_reservas', reservasUsuarioRouter)
 app.use('/pedidos', pedidosRouter)
 app.use('/mis_pedidos', misPedidosRouter)
 
+// Posible uso en el futuro
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
