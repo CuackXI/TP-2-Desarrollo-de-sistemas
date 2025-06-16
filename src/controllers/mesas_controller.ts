@@ -64,8 +64,8 @@ export async function eliminarMesa(req: Request, res: Response) {
       res.status(400).json({ mensaje: 'ID inválido' });
     }
 
-    const mesa = await ServicioMesa.eliminar_mesa(id);
-    res.json(mesa);
+    await ServicioMesa.eliminar_mesa(id);
+    res.json({ mensaje: 'Mesa eliminada correctamente' });
   } catch (error: any) {
     if (error.name == ErrorDB.TIPO) {
       res.status(error.status).json({ mensaje: error.message });

@@ -26,8 +26,8 @@ export async function eliminarUsuario(req: Request, res: Response): Promise<void
       return;
     }
 
-    const usuarioEliminado = await ServicioUsuario.eliminar_usuario(id);
-    res.json(usuarioEliminado);
+    await ServicioUsuario.eliminar_usuario(id);
+    res.json({ mensaje: 'Usuario eliminado correctamente' });
   } catch (error: any) {
 
     if (error.name == ErrorDB.TIPO) {

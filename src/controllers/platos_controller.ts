@@ -29,9 +29,9 @@ export async function eliminarPlato(req: Request, res: Response) {
     if (isNaN(id)) {
         res.status(400).json({ mensaje: 'ID inválido' });
     }
-    const plato = await ServicioPlato.eliminar_plato(id);
-    res.json(plato);
-
+    
+    await ServicioPlato.eliminar_plato(id);
+    res.json({ mensaje: 'Plato eliminado correctamente' });
   } catch (error: any) {
     if (error.name == ErrorDB.TIPO) {
       res.status(error.status).json({ mensaje: error.message });

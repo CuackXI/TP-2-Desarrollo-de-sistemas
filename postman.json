@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "5cfa6e45-d97c-4850-9be9-44f571b82942",
+		"_postman_id": "4c751f85-0c6c-4b1b-b9d0-6b15b5bef5a8",
 		"name": "Desarrollo de sistemas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "45374325",
-		"_collection_link": "https://koo-1241705.postman.co/workspace/Koo's-Workspace~08a86a04-7052-450b-86ba-3c72c62c6dc2/collection/45374325-5cfa6e45-d97c-4850-9be9-44f571b82942?action=share&source=collection_link&creator=45374325"
+		"_collection_link": "https://koo-1241705.postman.co/workspace/Koo's-Workspace~08a86a04-7052-450b-86ba-3c72c62c6dc2/collection/45374325-4c751f85-0c6c-4b1b-b9d0-6b15b5bef5a8?action=share&source=collection_link&creator=45374325"
 	},
 	"item": [
 		{
@@ -198,6 +198,30 @@
 							"port": "3000",
 							"path": [
 								"mis_reservas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete mi_reserva",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/mis_reservas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"mis_reservas",
+								"1"
 							]
 						}
 					},

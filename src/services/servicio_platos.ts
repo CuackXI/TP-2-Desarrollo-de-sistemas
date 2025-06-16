@@ -36,18 +36,6 @@ export class ServicioPlato {
         return plato;
     }
 
-    // Cliente
-    static async obtener_platos_categoria(categoria: CategoriaPlato): Promise<Plato[]> {
-        try {
-            return await prisma.plato.findMany({
-                where: { categoria },
-            });
-        } catch (error: any) {
-            console.log(error.message);
-            throw new ErrorDB(ServicioPlato.ERROR_OBTENER_PLATOS, 500);
-        }
-    }
-
     // Admin
     static async crear_plato(datos: Omit<Plato, 'id' | 'pedidos'>): Promise<Plato> {
         try {
@@ -56,7 +44,7 @@ export class ServicioPlato {
             });
         } catch (error: any) {
             console.log(error.message);
-            throw new ErrorDB(ServicioPlato.ERROR_CREAR_PLATO, 400);
+            throw new ErrorDB(ServicioPlato.ERROR_CREAR_PLATO, 500);
         }
     }
 

@@ -46,6 +46,7 @@ export class ServicioPedidos {
         }
     }
 
+    // Cliente - Obtener estados de los pedidos de un usuario específico
     static async obtener_estados_pedidos_usuario(usuarioId: number): Promise<{ id: number, estado: EstadoPedido }[]> {
         try {
             return await prisma.pedido.findMany({
@@ -79,7 +80,6 @@ export class ServicioPedidos {
         return pedido;
     }
 
-    // hay q meter el error d este me dio fiaca
     static async crear_pedido({usuarioId, platos}: {usuarioId: number; platos: { platoId: number; cantidad: number }[];}): Promise<Pedido> {
         try {
             const descuento = await ServicioDescuentos.obtener_descuento_por_usuario(usuarioId);

@@ -38,7 +38,7 @@ export class ServicioMesa {
             });
         } catch (error: any) {
             console.log(error.message);
-            throw new ErrorDB(ServicioMesa.ERROR_CREAR_MESA, 400);
+            throw new ErrorDB(ServicioMesa.ERROR_CREAR_MESA, 500);
         }
     }
 
