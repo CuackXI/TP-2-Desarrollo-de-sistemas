@@ -1,5 +1,5 @@
 # Restaurante lo de Migue
-Repositorio de la api web backend para la materia desarrollo de sistemas. Consta de una API REST para un sistema de reservas, pedidos y acceso a información de un restaurante ficticio.
+Repositorio de la api web backend para la materia desarrollo de sistemas. Consta de una API para un sistema de reservas, pedidos y acceso a información de un restaurante ficticio.
 
 ## Integrantes
 - *Kiara Micaela Koo*
