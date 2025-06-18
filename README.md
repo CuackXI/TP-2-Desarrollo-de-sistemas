@@ -26,3 +26,15 @@ En el archivo **postman.json** se guarda la información de todos los requests. 
 Además, es importante utilizar el usuario con rol de administrador para poder testear todas las funcionalidades. Acá dejo los datos de la misma:
 - nombre: "Nico"
 - contraseña: "123"
+
+## Decisiones de diseño
+
+- **Separación de roles:** Dividimos las funcionalidades entre cliente y admin con distintos permisos. Esto permite controlar el acceso a acciones como eliminar platos, crear mesas, etc.
+
+- **Base de datos:** Usamos SQLite como base local porque no requiere configuración adicional y es ideal para proyectos pequeños. Además, elegimos Prisma ORM porque ya estábamos familiarizados con su sintaxis y forma de trabajo, lo que permitió un desarrollo más rápido y con menos errores.
+
+- **Modelado:** Definimos relaciones claras entre entidades y utilizamos `enum` para campos como rol de usuario, categoría del plato y estado del pedido, lo que ayudó a validar mejor los datos y mantener el código más claro.
+
+- **Autenticación:** Usamos sesiones con `express-session` para mantener el estado de login del usuario.
+
+- **Estructura del backend:** Organizamos el código en carpetas (`routes`, `controllers`, `services`, `middlewares`) para separar responsabilidades y facilitar el mantenimiento.
