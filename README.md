@@ -31,7 +31,7 @@ Además, es importante utilizar el usuario con rol de administrador para poder t
 
 - **Separación de roles:** Dividimos las funcionalidades entre cliente y admin con distintos permisos. Esto permite controlar el acceso a acciones como eliminar platos, crear mesas, etc.
 
-- **Base de datos:** Usamos SQLite como base local porque no requiere configuración adicional y es ideal para proyectos pequeños. Además, elegimos Prisma ORM porque ya estábamos familiarizados con su sintaxis y forma de trabajo, lo que permitió un desarrollo más rápido y con menos errores.
+- **Base de datos:** Decidimos manejar la bd en SQLite usando Prisma ORM porque ya estábamos familiarizados con su sintaxis y forma de trabajo, lo que permitió un desarrollo más rápido y con menos errores.
 
 - **Modelado:** Definimos relaciones claras entre entidades y utilizamos `enum` para campos como rol de usuario, categoría del plato y estado del pedido, lo que ayudó a validar mejor los datos y mantener el código más claro.
 
