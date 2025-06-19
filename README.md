@@ -14,11 +14,6 @@ npm run build
 npm run start
 ``` 
 
-## Cómo migrar la base de datos
-```bash
-npx prisma migrate dev --name init
-```
-
 ## Cómo importar las requests para testear con postman
 En el archivo **postman.json** se guarda la información de todos los requests. Desde la app de postman se puede importar este archivo y usarlo para testear la api.
 
