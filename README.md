@@ -23,7 +23,7 @@ npx prisma migrate dev --name init
 En el archivo **postman.json** se guarda la información de todos los requests. Desde la app de postman se puede importar este archivo y usarlo para testear la api.
 
 ## Usuario admin
-Además, es importante utilizar el usuario con rol de administrador para poder testear todas las funcionalidades. Acá dejo los datos de la misma:
+Es importante utilizar el usuario con rol de administrador para poder testear todas las funcionalidades. Acá dejo los datos de la misma:
 - nombre: "Nico"
 - contraseña: "123"
 
