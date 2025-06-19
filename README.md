@@ -37,4 +37,4 @@ Es importante utilizar el usuario con rol de administrador para poder testear to
 
 - **Autenticación:** Usamos sesiones con `express-session` para mantener el estado de login del usuario.
 
-- **Estructura del backend:** Organizamos el código en carpetas (`routes`, `controllers`, `services`, `auth`) para separar responsabilidades y facilitar el mantenimiento.
+- **Estructura del backend:** Organizamos el código en carpetas (`routes`, `controllers`, `services`, `auth`, `errores`) para separar responsabilidades y facilitar el mantenimiento.
